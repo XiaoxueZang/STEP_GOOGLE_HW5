@@ -12,7 +12,7 @@ import google.appengine.api.urlfetch
 
 #word-shuffle page
 class MainPage(webapp2.RequestHandler):
-    contents = """
+    contents = u"""
         <h1>単語シャッフル</h1>
         <form action="/" method="post">
         <input type=text name="word1"><br>
@@ -28,9 +28,7 @@ class MainPage(webapp2.RequestHandler):
         w1 = self.request.get("word1")
         w2 = self.request.get("word2")
         shuffleResult = shift(w1,w2)
-        self.response.write("""
-                <h1>"""+ shuffleResult + """<h1/>
-                """ + self.contents)
+        self.response.write("""<h1>"""+ shuffleResult + """</h1>""" + self.contents)
 
 def shift(w1, w2):
     result = ""
@@ -46,9 +44,11 @@ def shift(w1, w2):
 
 #route_tokyo webpage
 class Transition(webapp2.RequestHandler):
-    frontPage = open('''/stephw5-1353/transitionFrontPage.html''', 'r')
+    frontPage = open('''transitionFrontPage.html''', 'r')
     contents = frontPage.read()
     def get(self):
+        self.response.headers['Content-Type'] = 'text/plain'
+        self.response.headers['Content-Type'] = 'text/html'
         self.response.write(self.contents)
 
     def post(self):
